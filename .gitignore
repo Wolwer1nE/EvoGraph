@@ -1,0 +1,8 @@
+.idea
+
+
+# Build results
+EvoGraph/bin/
+EvoGraph/obj/
+EvoGraphTest/bin/
+EvoGraphTest/obj/
