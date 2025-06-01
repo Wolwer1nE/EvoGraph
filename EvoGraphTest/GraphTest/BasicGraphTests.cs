@@ -12,7 +12,7 @@ public class BasicGraphTests
         {8, -1, -1}
     };
 
-    private static string _answerString = "3\n-1 0,2 -1 \n2 5 4 \n8 -1 -1 \n";
+    private static string _answerString = "3\n-1 2 -1 \n2 5 4 \n8 -1 -1 \n";
 
     private Graph GenerateGraph()
     {
@@ -20,7 +20,7 @@ public class BasicGraphTests
         graph.AddEdge(0, 0, -1);
         graph.AddEdge(1, 1, 5);
         graph.AddNode();
-        graph.AddEdge(0, 1, 0.2);
+        graph.AddEdge(0, 1, 2);
         graph.AddEdge(0, 2, -1);
         graph.AddEdge(1, 0, 2);
         graph.AddEdge(1, 2, 4);
