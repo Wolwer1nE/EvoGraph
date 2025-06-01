@@ -7,7 +7,7 @@ public class BasicGraphTests
     
     private static double[,] _answerMatrix = new double[,]
     {
-        {-1, 0.2, -1},
+        {-1, 2, -1},
         {2, 5, 4},
         {8, -1, -1}
     };
