@@ -4,5 +4,8 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ea5356c9_002D1f91_002D49be_002Da826_002Df79edfde91cc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.AgentTest.NumericGenAlgTest.BasicNumericGenAlgTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.GraphCreationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.SerializationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.DeserializationTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
