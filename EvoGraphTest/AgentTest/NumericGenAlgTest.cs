@@ -9,7 +9,7 @@ public class NumericGenAlgTest
     [Test]
     public void BasicNumericGenAlgTest()
     {
-        int count = 100;
+        int count = 200;
         var agents = new List<IAgent>();
         for (int i = 0; i < count; i++)
         {
@@ -23,6 +23,6 @@ public class NumericGenAlgTest
             Console.Write("Step: " + i + "; Best Fitness: ");
             Console.WriteLine(genAlg.Step().BestFitness);
         }
-        Assert.That(genAlg.Step().BestFitness > 1000);
+        Assert.That(genAlg.Step().BestFitness > 100000);
     }
 }
