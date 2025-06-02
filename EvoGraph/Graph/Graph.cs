@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using EvoGraph.MathUtils;
 
 namespace EvoGraph.Graph;
 
@@ -14,10 +15,7 @@ public class Graph
     public Graph(int size)
     {
         Count = size;
-        AdjacencyMatrix = new double[size, size];
-        for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
-            AdjacencyMatrix[i, j] = -1; 
+        AdjacencyMatrix = ArrayUtils.MatrixWithValue(size, -1);
     }
 
     /// <summary>
@@ -26,15 +24,15 @@ public class Graph
     public void AddNode()
     {
         double[,] matrix = new double[Count + 1, Count + 1];
-        for (int i = 0; i < Count; i++)
+        for (int row = 0; row < Count; row++)
         {
-            for (int j = 0; j < Count; j++)
-                matrix[i, j] = AdjacencyMatrix[i, j];
-            matrix[i, Count] = -1;
+            for (int col = 0; col < Count; col++)
+                matrix[row, col] = AdjacencyMatrix[row, col];
+            matrix[row, Count] = -1;
         }
         
-        for (int i = 0; i < Count; i++)
-            matrix[Count, i] = -1;
+        for (int col = 0; col < Count; col++)
+            matrix[Count, col] = -1;
         matrix[Count, Count] = -1;
         Count = Count + 1;
         AdjacencyMatrix = matrix;
@@ -65,10 +63,10 @@ public class Graph
     public override string? ToString()
     {
         string str = Count + "\n";
-        for (int i = 0; i < Count; i++)
+        for (int row = 0; row < Count; row++)
         { 
-            for (int j = 0; j < Count; j++)
-                str += AdjacencyMatrix[i, j] + " ";
+            for (int col = 0; col < Count; col++)
+                str += AdjacencyMatrix[row, col] + " ";
             str += "\n";
         }
         
@@ -89,15 +87,31 @@ public class Graph
     {
         var count = int.Parse(lines[0]);
         var graph = new Graph(count);
-        for (int i = 1; i <= count; i++)
+        for (int row = 1; row <= count; row++)
         {
-            string[] values = lines[i].Trim().Split(' ');
+            string[] values = lines[row].Trim().Split(' ');
             if (values.Length != count) 
                 throw new Exception("Incorrect number of values");
-            for (int j = 0; j < count; j++)
-                graph.AdjacencyMatrix[i - 1, j] = double.Parse(values[j]);
+            for (int col = 0; col < count; col++)
+                graph.AdjacencyMatrix[row - 1, col] = double.Parse(values[col]);
         }
 
         return graph;
+    }
+
+    /// <summary>
+    /// Copies the graph adjacency matrix.
+    /// </summary>
+    /// <returns>
+    /// The new instance of 2D array with same values as
+    /// the graph adjacency matrix.
+    /// </returns>
+    public double[,] CopyAdjacencyMatrix()
+    {
+        double[,] matrix = new double[Count, Count];
+        for (int row = 0;  row < Count;  row++)
+        for (int col = 0; col < Count; col++)
+            matrix[row, col] = AdjacencyMatrix[ row, col]; 
+        return matrix;
     }
 }

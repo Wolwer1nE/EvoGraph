@@ -33,4 +33,17 @@ public class ArrayUtils
 
         return ans;
     }
+
+    /// <summary>
+    /// Make a new instance of squared [size, size] matrix with the all elements
+    /// equal to the given <b>value.</b>
+    /// </summary>
+    public static double[,] MatrixWithValue(int size, double value)
+    {
+        double[,] matrix = new double[size, size];
+        for (int row = 0;  row < size;  row++)
+        for (int col = 0; col < size; col++)
+            matrix[ row, col] = value;
+        return matrix;
+    }
 }
