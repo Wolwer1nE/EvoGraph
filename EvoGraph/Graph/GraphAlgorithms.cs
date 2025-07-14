@@ -174,10 +174,51 @@ public class GraphAlgorithms
     /// <returns>
     /// 
     /// </returns>
-    public static List<int> Tsp(Graph graph)
+    public static int[] Tsp(Graph graph)
     {
-        //TODO: implement
-        throw new NotImplementedException();
+        
+        List<int> array = new List<int>();
+        for (int i = 0; i < graph.Count; i++)
+            array.Add(i);
+        
+        double min = double.MaxValue;
+        int[] minList = new int[graph.Count];
+        GetNextPermutation(array, graph.Count);
+        
+        return minList;
+        
+        void GetNextPermutation(List<int> order, int n)
+        {
+            if (n == 1)
+            {
+                // check for a gamilton cycle
+                double sum = 0;
+                for (int i = 1; i < order.Count; i++)
+                {
+                    double w = graph.AdjacencyMatrix[order[i - 1], order[i]];
+                    if (w < 0) return;
+                    sum += w;
+                }
+
+                // remember the cost
+                if (sum < min)
+                {
+                    min = sum;
+                    order.CopyTo(minList);
+                }
+                
+            }
+
+            else
+                for (int i = 0; i < n; i++)
+                {
+                    GetNextPermutation(order, n - 1);
+                    if (n % 2 == 0)
+                        (order[i], order[n - 1]) = (order[n - 1], order[i]);
+                    else
+                        (order[0], order[n - 1]) = (order[n - 1], order[0]);
+                }
+        }
     }
 
     /// <summary>
@@ -199,9 +240,9 @@ public class GraphAlgorithms
             throw new ArgumentException("Invalid start node");
 
         var cost = 0.0;
-        for (int i = 0; i < path.Length; i++)
+        for (int i = 1; i < path.Length; i++)
         {
-            int next = path[node];
+            int next = path[i];
             if (graph.AdjacencyMatrix[node, next] < 0) // check if the path contains unexisted edges
                 throw new ArgumentException("Invalid node path");
             cost += graph.AdjacencyMatrix[node, next];

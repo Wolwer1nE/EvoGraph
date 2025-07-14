@@ -7,5 +7,19 @@
     &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.GraphCreationTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.SerializationTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.BasicGraphTests.DeserializationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphConnectivityTests.TestConnectivityComponents_SingleComponent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphConnectivityTests.TestConnectivityComponents_TwoComponents&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphConnectivityTests.TestConnectivityComponents_DisconnectedNodes&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphDfsOrderTests.TestDfsOrderIndependent_ConnectedGraph&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphDfsOrderTests.TestDfsOrderIndependent_DisconnectedGraph&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphBfsOrderTests.TestBfsOrderIndependent_ConnectedGraph&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphBfsOrderTests.TestBfsOrderIndependent_DisconnectedGraph&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphTspTests.TestTsp_ThreeVertices&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphTspTests.TestTsp_FiveVertices&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphDfsOrderTests.TestBfsOrderIndependent_InvalidStartNode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphBfsOrderTests.TestBfsOrderIndependent_InvalidStartNode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphPathCostTests.TestPathCost_InvalidEdge&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphPathCostTests.TestPathCost_InvalidStartNode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::79C1C1E5-19CA-4925-807C-F1043543BE03::net9.0::EvoGraphTest.GraphTest.GraphAlgorithmsTest.GraphPathCostTests.TestPathCost_ValidPathThreeNodes&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

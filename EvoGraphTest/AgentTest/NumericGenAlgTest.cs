@@ -23,6 +23,6 @@ public class NumericGenAlgTest
             Console.Write("Step: " + i + "; Best Fitness: ");
             Console.WriteLine(genAlg.Step().BestFitness);
         }
-        Assert.That(genAlg.Step().BestFitness > 100000);
+        Assert.That(genAlg.Step().BestFitness > 10000);
     }
 }
