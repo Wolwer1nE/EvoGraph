@@ -17,9 +17,9 @@ public class Epoch
     /// Modifies some random agents from population.
     /// </summary>
     /// <param name="percent">
-    /// How many agents should mutate (20% = 0.20).
+    /// How many agents should mutate.
     /// </param>
-    public void Mutation(double percent = 0.2)
+    public void Mutation(double percent)
     {
         var mask = ArrayUtils.PercentMask(Population.Count, percent);
         foreach (int i in mask)
@@ -32,15 +32,10 @@ public class Epoch
     /// </summary>
     public void P4P()
     {
-        foreach (var agent in Population)
-        {
-            agent.CountFitness();
-        }
-
         Population.Sort((a, b) =>
         {
-            if (a.Fitness > b.Fitness) return -1;
-            return a.Fitness < b.Fitness ? 1 : 0;
+            if (a.Fitness < b.Fitness) return -1;
+            return a.Fitness > b.Fitness ? 1 : 0;
         });
     }
 
@@ -49,9 +44,9 @@ public class Epoch
     /// Population should be sorted by agents fitness score (first agent is the best).
     /// </summary>
     /// <param name="percent">
-    /// How many agents should give a child (10% = 0.10).
+    /// How many agents should give a child (10%).
     /// </param>
-    public void NaturalSelection(double percent = 0.1)
+    public void NaturalSelection(double percent)
     {
         int count = Population.Count;
         int num = (int)(count * percent);
@@ -70,9 +65,9 @@ public class Epoch
     /// Works on sorted population.
     /// </summary>
     /// <param name="percent">
-    /// How many agents should go to the gladiator tournament (20% = 0.2).
+    /// How many agents should go to the gladiator tournament (20%).
     /// </param>
-    public void Tournament(double percent = 0.2)
+    public void Tournament(double percent)
     {
         var mask = ArrayUtils.PercentMask(Population.Count, percent);
         for (int i = 1; i < mask.Count; i++)

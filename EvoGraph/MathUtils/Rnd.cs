@@ -4,6 +4,11 @@ public class Rnd
 {
     private static System.Random _singleton = new System.Random();
 
+    public static void SetSeed(int seed)
+    {
+        _singleton = new System.Random(seed);
+    }
+
     public static double NextDouble()
     {
         return _singleton.NextDouble();

@@ -9,20 +9,22 @@ public class NumericGenAlgTest
     [Test]
     public void BasicNumericGenAlgTest()
     {
-        int count = 200;
+        int count = 100;
         var agents = new List<IAgent>();
         for (int i = 0; i < count; i++)
         {
-            var x = 50 - Rnd.NextDouble(100);
-            var y = 50 - Rnd.NextDouble(100);
+            var x = 5000 - Rnd.NextDouble(10000);
+            var y = 5000 - Rnd.NextDouble(10000);
             agents.Add(new AgentExample(x, y));
         }
-        var genAlg = new NumericGenAlg(agents);
+        var genAlg = new NumericGenAlg(agents, FitnessFunctionExample.CountFitness, new NumericGenAlgSettings());
+        var bestFitness = Double.MaxValue;
         for (int i = 0; i < count; i++)
         {
-            Console.Write("Step: " + i + "; Best Fitness: ");
-            Console.WriteLine(genAlg.Step().BestFitness);
+            bestFitness = genAlg.Step().BestFitness;
+            Console.WriteLine("Step: " + i + "; Best Fitness: " + bestFitness);
+            if (bestFitness == 0) break;
         }
-        Assert.That(genAlg.Step().BestFitness > 10000);
+        Assert.That(bestFitness < 0.001);
     }
 }
