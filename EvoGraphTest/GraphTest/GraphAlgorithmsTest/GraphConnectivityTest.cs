@@ -18,9 +18,9 @@ public class GraphConnectivityTests
         int[] components = GraphAlgorithms.ConnectivityComponents(graph);
 
         // Assert
-        Assert.That(1, Is.EqualTo(components[0])); // All nodes should be in the same component
-        Assert.That(1, Is.EqualTo(components[1]));
-        Assert.That(1, Is.EqualTo(components[2]));
+        Assert.That(components[0], Is.EqualTo(1)); // All nodes should be in the same component
+        Assert.That(components[1], Is.EqualTo(1));
+        Assert.That(components[2], Is.EqualTo(1));
     }
 
     [Test]
@@ -37,10 +37,10 @@ public class GraphConnectivityTests
         int[] components = GraphAlgorithms.ConnectivityComponents(graph);
 
         // Assert
-        Assert.That(1, Is.EqualTo(components[0])); // Node 0 in component 1
-        Assert.That(1, Is.EqualTo(components[1])); // Node 1 in component 1
-        Assert.That(2, Is.EqualTo(components[2])); // Node 2 in component 2
-        Assert.That(2, Is.EqualTo(components[3])); // Node 3 in component 2
+        Assert.That(components[0], Is.EqualTo(1)); // Node 0 in component 1
+        Assert.That(components[1], Is.EqualTo(1)); // Node 1 in component 1
+        Assert.That(components[2], Is.EqualTo(2)); // Node 2 in component 2
+        Assert.That(components[3], Is.EqualTo(2)); // Node 3 in component 2
     }
 
     [Test]
@@ -53,8 +53,8 @@ public class GraphConnectivityTests
         int[] components = GraphAlgorithms.ConnectivityComponents(graph);
 
         // Assert
-        Assert.That(1, Is.EqualTo(components[0])); // Each node is its own component
-        Assert.That(2, Is.EqualTo(components[1]));
-        Assert.That(3, Is.EqualTo(components[2]));
+        Assert.That(components[0], Is.EqualTo(1)); // Each node is its own component
+        Assert.That(components[1], Is.EqualTo(2));
+        Assert.That(components[2], Is.EqualTo(3));
     }
 }
