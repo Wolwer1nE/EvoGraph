@@ -1,1 +1,2 @@
 - Pavel Oganesyan: Initial Concept
+- Pakhalovich Antonii [](https://github.com/Vendetta1871): GA Architecture Development
