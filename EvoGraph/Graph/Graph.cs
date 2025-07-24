@@ -16,6 +16,8 @@ public class Graph
     {
         Count = size;
         AdjacencyMatrix = ArrayUtils.MatrixWithValue(size, -1);
+        for (int i = 0; i < size; i++)
+            AdjacencyMatrix[i, i] = 0;
     }
 
     /// <summary>
@@ -33,7 +35,7 @@ public class Graph
         
         for (int col = 0; col < Count; col++)
             matrix[Count, col] = -1;
-        matrix[Count, Count] = -1;
+        matrix[Count, Count] = 0;
         Count = Count + 1;
         AdjacencyMatrix = matrix;
     }

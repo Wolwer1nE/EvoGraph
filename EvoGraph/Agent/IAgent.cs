@@ -11,11 +11,6 @@ public interface IAgent
     /// Copy an instance of this agent
     /// </summary>
     public IAgent Clone();
-    
-    /// <summary>
-    /// Count the fitness function value
-    /// </summary>
-    public double CountFitness();
 
     /// <summary>
     /// Make a hybrid of two agents (makes a <b>new</b> instance,

@@ -7,18 +7,16 @@ public class BasicGraphTests
     
     private static double[,] _answerMatrix = new double[,]
     {
-        {-1, 2, -1},
-        {2, 5, 4},
-        {8, -1, -1}
+        {0, 2, -1},
+        {2, 0, 4},
+        {8, -1, 0}
     };
 
-    private static string _answerString = "3\n-1 2 -1 \n2 5 4 \n8 -1 -1 \n";
+    private static string _answerString = "3\n0 2 -1 \n2 0 4 \n8 -1 0 \n";
 
     private Graph GenerateGraph()
     {
         var graph = new Graph(2);
-        graph.AddEdge(0, 0, -1);
-        graph.AddEdge(1, 1, 5);
         graph.AddNode();
         graph.AddEdge(0, 1, 2);
         graph.AddEdge(0, 2, -1);
@@ -26,7 +24,6 @@ public class BasicGraphTests
         graph.AddEdge(1, 2, 4);
         graph.AddEdge(2, 0, 8);
         graph.AddEdge(2, 1, -1);
-        graph.AddEdge(2, 2, -1);
         return graph;
     }
     
