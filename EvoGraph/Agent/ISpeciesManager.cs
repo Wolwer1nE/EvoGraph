@@ -1,37 +1,28 @@
-﻿using EvoGraph.Numeric;
-
-namespace EvoGraph.Agent;
+﻿namespace EvoGraph.Agent;
 
 public interface ISpeciesManager
 {
-    /// <summary> Max distance between agents in one species. </summary>
-    public double Threshold { get; set; }
-    
-    public int TargetSpeciesCount { get; set; }
-    
-    public int MaxSpeciesCount { get; set; }
-    
-    public int PopulationSize { get; set; }
-    
     public List<Species> SpeciesList { get; }
     
     /// <summary> Add an agent to existing species or create a new one. </summary>
     public void Add(IAgent agent);
 
-    /// <summary> Remove bad species which didn't have any improvements for a long time. </summary>
+    /// <summary> Remove redundant species. </summary>
     public void SpeciesCulling();
 
-    /// <summary> Calculate how big should be each species offspring in next step. </summary>
-    public List<int> ExpectedOffspring(); // TODO: remember of this 1/fitness, its only for decreasing
+    /// <summary> Calculate how many agents should be in each species offspring. </summary>
+    public List<int> ExpectedOffspring();
 
-    public void SortSpeciesByMeanFitness()
+    /// <summary> Sort species by their mean fitness. </summary>
+    public void Sort(bool isAscending = true)
     {
-        foreach (var species in SpeciesList) species.SortByFitness();
-        SpeciesList.Sort((x, y) => x.FitnessHistory[^1].CompareTo(y.FitnessHistory[^1]));
+        foreach (var species in SpeciesList) species.Sort(isAscending);
+        if (isAscending) SpeciesList.Sort((x, y) => x.MeanFitness().CompareTo(y.MeanFitness()));
+        else SpeciesList.Sort((x, y) => y.MeanFitness().CompareTo(x.MeanFitness()));
     }
 
-    /// <summary> For each species delete all members after the best one. </summary>
-    public void ClearSpeciesExceptFirst()
+    /// <summary> Delete all members in species (except the best member which becomes representative). </summary>
+    public void ClearSpecies()
     {
         foreach (var species in SpeciesList)
         {

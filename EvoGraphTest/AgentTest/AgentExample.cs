@@ -1,34 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EvoGraph.Agent;
+﻿using EvoGraph.Agent;
 using EvoGraph.MathUtils;
-using NUnit.Framework.Constraints;
 
 namespace EvoGraphTest.AgentTest;
 
 public class AgentExample : IAgent
 {
-    public double X { get;}
-    public double Y { get;}
+    public double X { get; }
     
-    public string Gene { get;}
+    public double Y { get; }
+    
+    public string Dna { get; }
     
     public double Fitness { set; get; }
-
-    public static Random Rnd { set; get; } = new Random();
 
     public AgentExample(double x, double y)
     {
         X = x;
         Y = y;
         Fitness = double.MaxValue;
-        Gene = x.ToBinaryString() + y.ToBinaryString();
+        Dna = x.ToBinaryString() + y.ToBinaryString();
     }
     
-    public AgentExample(string gene)
+    public AgentExample(string dna)
     {
-        Gene = gene;
-        X = gene[..64].BinaryToDouble();
-        Y = gene[64..].BinaryToDouble();
+        Dna = dna;
+        X = dna[..64].BinaryToDouble();
+        Y = dna[64..].BinaryToDouble();
         Fitness = double.MaxValue;
     }
 
@@ -42,67 +39,49 @@ public class AgentExample : IAgent
 
     public IAgent Crossover(IAgent other)
     {
-        if (other is not AgentExample first) return new AgentExample(X, Y);
+        if (other is not AgentExample agent) return new AgentExample(X, Y);
         
-        var charsThis = Gene.ToCharArray();
-        var charsFirst = first.Gene.ToCharArray();
+        var chars0 = Dna.ToCharArray();
+        var chars1 = agent.Dna.ToCharArray();
         
-        string geneChild = "";
+        var geneChild = "";
         for (int i = 0; i < 128; ++i)
         {
-            if (Rnd.NextDouble() > 0.5)
-                geneChild += charsThis[i];
-            else 
-                geneChild += charsFirst[i];
+            if (ArrayUtils.SharedRandom.NextDouble() > 0.5) geneChild += chars0[i];
+            else geneChild += chars1[i];
         }
-        
-        /*
-         var gene0 = Gene;
-        var gene1 = first.Gene;
-        if (Rnd.NextDouble() > 0.5) (gene0, gene1) = (gene1, gene0);
-        var geneChild = gene0[..64] + gene1[64..];
-         */
         
         return new AgentExample(geneChild);
     }
 
     public IAgent Mutation()
     {
-        var type = (int)(Rnd.NextDouble() * 3);
+        var type = (int)(ArrayUtils.SharedRandom.NextDouble() * 5);
         return type switch
         {
-            0 => new AgentExample(Mutate1()),
-            1 => new AgentExample(Mutate2()),
-            2 => new AgentExample(Mutate3()),
-            _ => Clone()
+            < 2 => new AgentExample(MutateOneGene()),
+            < 4 => new AgentExample(MutateTwoGenes()),
+            >= 4 => new AgentExample(WeakMutation())
         };
     }
     
-    private string Mutate1()
+    private string MutateOneGene()
     {
-        var chars = Gene.ToCharArray();
-        var pos = Rnd.Next(Gene.Length);
-        if (chars[pos] == '0') chars[pos] = '1';
-        else if (chars[pos] == '1') chars[pos] = '0';
-        return new string(chars);
+        var index = ArrayUtils.SharedRandom.Next(64);
+        return new string(Dna.ToCharArray().InverseBit(index));
     }
     
-    private string Mutate2()
+    private string MutateTwoGenes()
     {
-        var chars = Gene.ToCharArray();
-        var pos0 = Rnd.Next(64);
-        if (chars[pos0] == '0') chars[pos0] = '1';
-        else if (chars[pos0] == '1') chars[pos0] = '0';
-        var pos1 = 64 + Rnd.Next(64);
-        if (chars[pos1] == '0') chars[pos1] = '1';
-        else if (chars[pos1] == '1') chars[pos1] = '0';
-        return new string(chars);
+        var i = ArrayUtils.SharedRandom.Next(64);
+        var j = 64 + ArrayUtils.SharedRandom.Next(64);
+        return new string(Dna.ToCharArray().InverseBit(i).InverseBit(j));
     }
 
-    private string Mutate3()
+    private string WeakMutation()
     {
-        var x = Rnd.NextDouble() * X;
-        var y = Rnd.NextDouble() * Y;
+        var x = ArrayUtils.SharedRandom.NextDouble() * X;
+        var y = ArrayUtils.SharedRandom.NextDouble() * Y;
         return x.ToBinaryString() + y.ToBinaryString();
     }
 }

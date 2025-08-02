@@ -5,25 +5,16 @@ namespace EvoGraph.Numeric;
 
 public delegate double FitnessFunction(IAgent agent);
 
-public class NumericGenAlg : IGenAlg
+public class NumericGenAlg(ISpeciesManager manager, FitnessFunction ff, OffspringStrategy strategy) : IGenAlg
 {
     private int _step;
     
-    private Epoch.Epoch _epoch;
+    private Epoch.Epoch _epoch = new(manager, strategy);
 
-    private readonly FitnessFunction _ff;
-
-    public NumericGenAlg(ISpeciesManager manager, FitnessFunction ff, EpochSettings settings, OffspringStrategy strategy)
-    {
-        _step = 0;
-        _epoch = new Epoch.Epoch(settings, manager, strategy);
-        _ff = ff;
-    }
-    
     public void CountFitness()
     {
         var agents = _epoch.SpeciesManager.SpeciesList.SelectMany(species => species.Members);
-        foreach (var agent in agents) _ff(agent);
+        foreach (var agent in agents) ff(agent);
     }
     
     public EpochResult Step()

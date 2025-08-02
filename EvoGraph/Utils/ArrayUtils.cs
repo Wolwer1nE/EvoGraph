@@ -2,66 +2,56 @@
 
 public static class ArrayUtils
 {
-    public static Random Rnd { set; get; } = new Random();
+    /// <summary> Provides a Random class instance same for all users. </summary>
+    public static Random SharedRandom { set; get; } = new Random();
+
+    public static void SetRandomSeed(int seed)
+    {
+        SharedRandom = new Random(seed);
+    }
     
     /// <summary> Shuffle the array using Fisher-Yates algorithm (modifies source array). </summary>
     public static T[] Shuffle<T>(this T[] array)
     {
         for (var i = array.Length - 1; i > 0; i--)
         {
-            var j = Rnd.Next(i + 1);
+            var j = SharedRandom.Next(i + 1);
             (array[i], array[j]) = (array[j], array[i]);
         }
 
         return array;
     }
     
-    /// <returns> A list of [max] x [percent] unique random numbers in range from 0 to [max]. </returns>
-    public static int[] PercentMask(int max, double percent)
-    {
-        var array = new int[max];
-        for (var i = 0; i < max; i++) array[i] = i;
-        var num = (int)(max * percent);
-        return array.Shuffle()[..num];
-    }
-    
-    /// <returns> A list of [count] unique random positive numbers less than [max]. </returns>
-    public static int[] PercentMask(int max, int count)
+    /// <returns> An array of [count] unique random positive numbers less than [max]. </returns>
+    public static int[] RandomSet(int max, int count)
     {
         var array = new int[max];
         for (var i = 0; i < max; i++) array[i] = i;
         return array.Shuffle()[..count];
     }
     
-    public static int[] RandomIntArray(int max, int count)
-    {
-        var array = new int[count];
-        for (var i = 0; i < count; i++) array[i] = Rnd.Next(max);
-        return array;
-    }
-
+    /// <returns> A random element from this list. </returns>
     public static T RandomElement<T>(this List<T> array)
     {
-        return array[Rnd.Next(array.Count)];
-    }
-
-    // TODO: remove as deprecated (there is the same method for T[,])
-    public static double[,] MatrixWithValue(int size, double value)
-    {
-        var matrix = new double[size, size];
-        for (var row = 0;  row < size;  row++)
-        for (var col = 0; col < size; col++)
-            matrix[row, col] = value;
-        return matrix;
+        return array[SharedRandom.Next(array.Count)];
     }
     
     /// <returns> An array T[size, size] where all elements are equal the given value. </returns>
-    private static T[,] MatrixWithValue<T>(int size, T value)
+    public static T[,] MatrixWithValue<T>(int size, T value)
     {
         var matrix = new T[size, size];
         for (var row = 0;  row < size;  row++)
         for (var col = 0; col < size; col++)
             matrix[row, col] = value;
         return matrix;
+    }
+    
+    /// <summary> Inverses a bit in binary string (should be an array of char). </summary>
+    public static char[] InverseBit(this char[] binary, int index)
+    {
+        if (binary[index] == '0') binary[index] = '1';
+        else if (binary[index] == '1') binary[index] = '0';
+        else throw new ArgumentException("Not a binary");
+        return binary;
     }
 }

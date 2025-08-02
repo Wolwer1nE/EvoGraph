@@ -1,20 +1,18 @@
 ﻿using EvoGraph.Agent;
-using EvoGraph.MathUtils;
 
 namespace EvoGraph.Epoch;
 
-public class Epoch(EpochSettings settings, ISpeciesManager manager, OffspringStrategy strategy)
+public class Epoch(ISpeciesManager manager, OffspringStrategy strategy)
 {
-    public readonly EpochSettings Settings = settings;
     public readonly ISpeciesManager SpeciesManager = manager;
     public readonly OffspringStrategy Strategy = strategy;
 
     public virtual EpochResult Step(int step)
     {
-        SpeciesManager.SortSpeciesByMeanFitness();
-        var bestFitness = SpeciesManager.SpeciesList.Min(s => s.Members[0].Fitness);
-        
+        SpeciesManager.Sort();
         SpeciesManager.SpeciesCulling();
+        
+        var bestFitness = SpeciesManager.SpeciesList.Min(s => s.Members[0].Fitness);
         
         List<IAgent> offspring = [];
         var populations = SpeciesManager.ExpectedOffspring();
@@ -24,7 +22,7 @@ public class Epoch(EpochSettings settings, ISpeciesManager manager, OffspringStr
             offspring.AddRange(Strategy.GetOffspring(species, populations[i]));
         }
         
-        SpeciesManager.ClearSpeciesExceptFirst();
+        SpeciesManager.ClearSpecies();
         foreach (var child in offspring) SpeciesManager.Add(child);
 
         return new EpochResult(step, bestFitness);

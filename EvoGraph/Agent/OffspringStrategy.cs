@@ -1,21 +1,24 @@
-﻿using EvoGraph.Epoch;
-using EvoGraph.MathUtils;
+﻿using EvoGraph.MathUtils;
 
 namespace EvoGraph.Agent;
 
-public class OffspringStrategy(EpochSettings settings)
+public class OffspringStrategy(OffspringSettings settings)
 {
-    public  EpochSettings Settings = settings;
+    protected OffspringSettings Settings = settings;
     
+    /// <summary> Add the mutated members of species to the offspring list. </summary>
     protected virtual void Mutate(List<IAgent> offspring, Species species, int count)
     {
-        var mask = ArrayUtils.PercentMask(offspring.Count, count);
+        var max = Math.Min(species.Members.Count, offspring.Count);
+        var mask = ArrayUtils.RandomSet(max, count);
         foreach (var i in mask) offspring[i] = offspring[i].Mutation();
     }
 
+    /// <summary> Add children of 2 members of species to the offspring list. </summary>
     protected virtual void Crossover(List<IAgent> offspring, Species species, int count)
     {
-        var mask = ArrayUtils.PercentMask(offspring.Count, count);
+        var max = Math.Min(species.Members.Count, offspring.Count);
+        var mask = ArrayUtils.RandomSet(max, count);
         for (var i = 1; i < count; i++)
         {
             var mother = species.Members[mask[i]];
@@ -24,17 +27,20 @@ public class OffspringStrategy(EpochSettings settings)
         }
     }
 
+    /// <summary> Replaces some bad agents with clones of fitter ones. </summary>
     protected virtual void Tournament(List<IAgent> offspring, Species species, int count)
     {
-        var mask = ArrayUtils.RandomIntArray(species.Members.Count, count);
+        var max = Math.Min(species.Members.Count, offspring.Count);
+        var mask = ArrayUtils.RandomSet(max, count);
         for (var i = 1; i < count; i++)
         {
-            var max = Math.Max(mask[i], mask[i - 1]);
-            var min = Math.Min(mask[i], mask[i - 1]);
-            offspring[max] = offspring[min];
+            var worse = Math.Max(mask[i], mask[i - 1]);
+            var fitter = Math.Min(mask[i], mask[i - 1]);
+            offspring[worse] = offspring[fitter].Clone();
         }
     }
     
+    /// <summary> Get the offspring of a given species. </summary>
     public virtual List<IAgent> GetOffspring(Species species, int count)
     {
         if (count == 0) return [];
@@ -54,7 +60,7 @@ public class OffspringStrategy(EpochSettings settings)
         
         offspring.InsertRange(0, elite);
         
-        while (offspring.Count > count) offspring.RemoveAt(ArrayUtils.Rnd.Next(eliteCount, offspring.Count - 1));
+        while (offspring.Count > count) offspring.RemoveAt(ArrayUtils.SharedRandom.Next(eliteCount, offspring.Count - 1));
         while (offspring.Count < count) offspring.Add(offspring.RandomElement());
         return offspring;
     }
