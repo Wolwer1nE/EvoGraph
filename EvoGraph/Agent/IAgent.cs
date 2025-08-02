@@ -2,25 +2,17 @@
 
 public interface IAgent
 {
-    /// <summary>
-    /// Get the fitness functions value
-    /// </summary>
+    /// <summary> Get stored fitness function value (won't affect the value). </summary>
     public double Fitness { get; }
 
-    /// <summary>
-    /// Copy an instance of this agent
-    /// </summary>
+    /// <summary> Deep clone of this agent instance. </summary>
     public IAgent Clone();
 
-    /// <summary>
-    /// Make a hybrid of two agents (makes a <b>new</b> instance,
-    /// doesn't change the original agent)
-    /// </summary>
+    /// <summary> Make a hybrid of two agents (won't affect original agents). </summary>
+    /// <returns> A new instance of hybridized agent. </returns>
     public IAgent Crossover(IAgent other);
     
-    /// <summary>
-    /// Randomly modifies agent params (makes a <b>new</b> instance,
-    /// doesn't change the original agent)
-    /// </summary>
+    /// <summary> Randomly modifies agent params (won't affect original agent). </summary>
+    /// <returns> A new instance of modified agent. </returns>
     public IAgent Mutation();
 }

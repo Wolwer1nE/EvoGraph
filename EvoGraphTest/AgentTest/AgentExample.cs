@@ -1,53 +1,32 @@
 ﻿using EvoGraph.Agent;
-using EvoGraph.Random;
-using NUnit.Framework.Constraints;
+using EvoGraph.MathUtils;
 
 namespace EvoGraphTest.AgentTest;
 
 public class AgentExample : IAgent
 {
-    public double X {private set; get;}
-    public double Y {private set; get;}
+    public double X { get; }
     
-    public string Gene {private set; get;}
+    public double Y { get; }
+    
+    public string Dna { get; }
     
     public double Fitness { set; get; }
-    
-    public string Encode()
-    {
-        long bitsX = BitConverter.DoubleToInt64Bits(X);
-        string binaryX = Convert.ToString(bitsX, 2).PadLeft(64, '0');
-        long bitsY = BitConverter.DoubleToInt64Bits(X);
-        string binaryY = Convert.ToString(bitsY, 2).PadLeft(64, '0');
-        
-        return binaryX + binaryY;
-    }
-
-    public (double x, double y) Decode()
-    {
-        long newBitsX = Convert.ToInt64(Gene.Substring(0, 64), 2);
-        double x = BitConverter.Int64BitsToDouble(newBitsX);
-        
-        long newBitsY = Convert.ToInt64(Gene.Substring(64, 64), 2);
-        double y = BitConverter.Int64BitsToDouble(newBitsY);
-        
-        return (x, y);
-    }
-
 
     public AgentExample(double x, double y)
     {
         X = x;
         Y = y;
-        Fitness = Int32.MaxValue;
-        Gene = Encode();
+        Fitness = double.MaxValue;
+        Dna = x.ToBinaryString() + y.ToBinaryString();
     }
     
-    public AgentExample(string gene)
+    public AgentExample(string dna)
     {
-        Gene = gene;
-        (X, Y) = Decode();
-        Fitness = Int32.MaxValue;
+        Dna = dna;
+        X = dna[..64].BinaryToDouble();
+        Y = dna[64..].BinaryToDouble();
+        Fitness = double.MaxValue;
     }
 
     public IAgent Clone()
@@ -60,30 +39,49 @@ public class AgentExample : IAgent
 
     public IAgent Crossover(IAgent other)
     {
-        AgentExample? first = other as AgentExample;
-        if (first == null) return new AgentExample(X, Y);
+        if (other is not AgentExample agent) return new AgentExample(X, Y);
         
-        var charsThis = Gene.ToCharArray();
-        var charsFirst = first.Gene.ToCharArray();
+        var chars0 = Dna.ToCharArray();
+        var chars1 = agent.Dna.ToCharArray();
         
-        string geneChild = "";
+        var geneChild = "";
         for (int i = 0; i < 128; ++i)
         {
-            if (Rnd.NextDouble() > 0.5)
-                geneChild += charsThis[i];
-            else 
-                geneChild += charsFirst[i];
+            if (ArrayUtils.SharedRandom.NextDouble() > 0.5) geneChild += chars0[i];
+            else geneChild += chars1[i];
         }
-
+        
         return new AgentExample(geneChild);
     }
 
     public IAgent Mutation()
     {
-        var chars = Gene.ToCharArray();
-        int pos = Rnd.NextInt(Gene.Length);
-        if (chars[pos] == '0') chars[pos] = '1';
-        else if (chars[pos] == '1') chars[pos] = '0';
-        return new AgentExample(new string(chars));
+        var type = (int)(ArrayUtils.SharedRandom.NextDouble() * 5);
+        return type switch
+        {
+            < 2 => new AgentExample(MutateOneGene()),
+            < 4 => new AgentExample(MutateTwoGenes()),
+            >= 4 => new AgentExample(WeakMutation())
+        };
+    }
+    
+    private string MutateOneGene()
+    {
+        var index = ArrayUtils.SharedRandom.Next(64);
+        return new string(Dna.ToCharArray().InverseBit(index));
+    }
+    
+    private string MutateTwoGenes()
+    {
+        var i = ArrayUtils.SharedRandom.Next(64);
+        var j = 64 + ArrayUtils.SharedRandom.Next(64);
+        return new string(Dna.ToCharArray().InverseBit(i).InverseBit(j));
+    }
+
+    private string WeakMutation()
+    {
+        var x = ArrayUtils.SharedRandom.NextDouble() * X;
+        var y = ArrayUtils.SharedRandom.NextDouble() * Y;
+        return x.ToBinaryString() + y.ToBinaryString();
     }
 }

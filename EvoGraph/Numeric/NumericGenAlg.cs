@@ -1,46 +1,25 @@
 using EvoGraph.Agent;
+using EvoGraph.Epoch;
 
 namespace EvoGraph.Numeric;
 
 public delegate double FitnessFunction(IAgent agent);
 
-public class NumericGenAlg : IGenAlg
+public class NumericGenAlg(ISpeciesManager manager, FitnessFunction ff, OffspringStrategy strategy) : IGenAlg
 {
     private int _step;
     
-    private Epoch.Epoch _epoch;
+    private Epoch.Epoch _epoch = new(manager, strategy);
 
-    private FitnessFunction FitnessFunc { set; get; }
-
-    public NumericGenAlgSettings Settings { set; get; }
-
-    public NumericGenAlg(List<IAgent> agents, FitnessFunction ff, NumericGenAlgSettings settings)
+    public void CountFitness()
     {
-        _step = 0;
-        _epoch = new Epoch.Epoch(agents);
-        FitnessFunc = ff;
-        Settings = settings;
-    }
-    
-    public void CountFitnesses()
-    {
-        foreach (var agent in _epoch.Population)
-        {
-            FitnessFunc(agent);
-        }
+        var agents = _epoch.SpeciesManager.SpeciesList.SelectMany(species => species.Members);
+        foreach (var agent in agents) ff(agent);
     }
     
     public EpochResult Step()
     {
-        ++_step;
-        
-        CountFitnesses();
-        
-        _epoch.P4P();
-        _epoch.Mutation(Settings.MutationPercentage);
-        _epoch.Tournament(Settings.TournamentPercentage);
-        _epoch.NaturalSelection(Settings.NaturalSelectionPercentage);
-        _epoch.P4P();
-        return new EpochResult(_step, _epoch.Population[0].Fitness);
+        CountFitness();
+        return _epoch.Step(_step++);
     }
 }
